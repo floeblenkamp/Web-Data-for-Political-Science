@@ -1,24 +1,12 @@
 #
 # File No 1: Data Scraping
 # 
-
-
-
-rm(list=ls())
-
-
-library(snow)
 library(rtweet)
 library(ggplot2)
 library(dplyr)
 library(tidytext)
 library(streamR)
 library(ROAuth)
-library(parallel)
-
-
-
-setwd("C:/Users/HP/OneDrive/UZH/Sommersemester2021/Web Data/Essay/twitter")
 
 # Part 1: Scrape Twitter Data for network analysis ----
 ## load twitter database: sheet with all usernames of Nationalrat/St?nderat MPs----
@@ -27,6 +15,7 @@ twitter <- twitter %>% filter(institution == "sr" )
 # pages == "svp" | pages == "sp" | pages == "glp" |  pages == "gruene" |
 #  pages == "mitte" | pages == "fdp" | party == "BR"|
 
+# load API Data
 load("api_twitter.Rdata")
 
 twitter$usernames
@@ -50,7 +39,6 @@ twitter$likes <- rev(likes[1:nrow(twitter)])
 #write.csv(twitter, "twitter.csv")
 
 ## scrape twitter followers---- 
-# see you in two hours
 
 df <- as.data.frame(matrix(NA,5000,1))
 for (i in twitter$id){
@@ -149,4 +137,4 @@ for (i in 1:nrow(twitter)){
     ratiomat[j,i] <- matrix[j,i]/matrix[j,j] %>% round(., digits = 3)
   }} 
 
-write.csv(ratiomat, "ratiomat_sr.csv")
+write.csv(ratiomat, "ratiomat_sr.csv") # ratiomat.sr is available as a csv file in the data repository
